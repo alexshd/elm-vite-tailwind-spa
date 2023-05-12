@@ -1,4 +1,20 @@
-port module Api exposing (Cred, addServerError, application, decodeErrors, delete, get, login, logout, post, put, register, settings, storeCredWith, username, viewerChanges)
+port module Api exposing
+    ( Cred
+    , addServerError
+    , application
+    , decodeErrors
+    , delete
+    , get
+    , login
+    , logout
+    , post
+    , put
+    , register
+    , settings
+    , storeCredWith
+    , username
+    , viewerChanges
+    )
 
 {-| This module is responsible for communicating to the Conduit API.
 
@@ -10,9 +26,9 @@ import Api.Endpoint as Endpoint exposing (Endpoint)
 import Avatar exposing (Avatar)
 import Browser
 import Browser.Navigation as Nav
-import Http exposing (Body, Expect)
-import Json.Decode as Decode exposing (Decoder, Value, decodeString, field, string)
-import Json.Decode.Pipeline as Pipeline exposing (optional, required)
+import Http exposing (Body)
+import Json.Decode as Decode exposing (Decoder, Value, decodeString, field)
+import Json.Decode.Pipeline exposing (required)
 import Json.Encode as Encode
 import Url exposing (Url)
 import Username exposing (Username)
@@ -67,15 +83,6 @@ credDecoder =
 
 
 -- PERSISTENCE
-
-
-decode : Decoder (Cred -> viewer) -> Value -> Result Decode.Error viewer
-decode decoder value =
-    -- It's stored in localStorage as a JSON String;
-    -- first decode the Value as a String, then
-    -- decode that String as JSON.
-    Decode.decodeValue Decode.string value
-        |> Result.andThen (\str -> Decode.decodeString (Decode.field "user" (decoderFromCred decoder)) str)
 
 
 port onStoreChange : (Value -> msg) -> Sub msg
@@ -271,7 +278,7 @@ decodeErrors error =
                 |> decodeString (field "errors" errorsDecoder)
                 |> Result.withDefault [ "Server error" ]
 
-        err ->
+        _ ->
             [ "Server error" ]
 
 
@@ -288,13 +295,3 @@ fromPair ( field, errors ) =
 
 
 -- LOCALSTORAGE KEYS
-
-
-cacheStorageKey : String
-cacheStorageKey =
-    "cache"
-
-
-credStorageKey : String
-credStorageKey =
-    "cred"

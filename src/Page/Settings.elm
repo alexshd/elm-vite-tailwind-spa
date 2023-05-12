@@ -2,23 +2,21 @@ module Page.Settings exposing (Model, Msg, init, subscriptions, toSession, updat
 
 import Api exposing (Cred)
 import Api.Endpoint as Endpoint
-import Avatar
-import Browser.Navigation as Nav
 import Email exposing (Email)
+import Helpers exposing (tailwind)
 import Html exposing (Html, button, div, fieldset, h1, input, li, text, textarea, ul)
 import Html.Attributes exposing (attribute, class, placeholder, type_, value)
 import Html.Events exposing (onInput, onSubmit)
 import Http
-import Json.Decode as Decode exposing (Decoder, decodeString, field, list, string)
+import Json.Decode as Decode exposing (Decoder, field)
 import Json.Decode.Pipeline exposing (hardcoded, required)
 import Json.Encode as Encode
 import Loading
 import Log
-import Profile exposing (Profile)
 import Route
 import Session exposing (Session)
 import Task
-import Username as Username exposing (Username)
+import Username exposing (Username)
 import Viewer exposing (Viewer)
 
 
@@ -86,8 +84,6 @@ This doesn't create any guarantees that the form was actually validated. If
 we wanted to do that, we'd need to move the form data into a separate module!
 
 -}
-type ValidForm
-    = Valid Form
 
 
 
@@ -100,11 +96,15 @@ view model =
     , content =
         case Session.cred model.session of
             Just cred ->
-                div [ class "settings-page" ]
-                    [ div [ class "container page" ]
-                        [ div [ class "row" ]
+                div [ class <| tailwind { css = "bg-yellow-100" } ]
+                    [ div [ class <| tailwind { css = "container page bg-cyan-100" } ]
+                        [ div [ class "" ]
                             [ div [ class "col-md-6 offset-md-3 col-xs-12" ] <|
-                                [ h1 [ class "text-xs-center" ] [ text "Your Settings" ]
+                                [ h1
+                                    [ class <|
+                                        tailwind { css = "text-2xl font-bold text-center mb-2" }
+                                    ]
+                                    [ text "Your Settings" ]
                                 , ul [ class "error-messages" ]
                                     (List.map viewProblem model.problems)
                                 , case model.status of
@@ -450,12 +450,3 @@ edit cred (Trimmed form) =
                 |> Http.jsonBody
     in
     Api.settings cred body Viewer.decoder
-
-
-nothingIfEmpty : String -> Maybe String
-nothingIfEmpty str =
-    if String.isEmpty str then
-        Nothing
-
-    else
-        Just str

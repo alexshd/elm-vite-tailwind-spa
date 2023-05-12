@@ -1,4 +1,19 @@
-module Api.Endpoint exposing (Endpoint, article, articles, comment, comments, favorite, feed, follow, login, profiles, request, tags, user, users)
+module Api.Endpoint exposing
+    ( Endpoint
+    , article
+    , articles
+    , comment
+    , comments
+    , favorite
+    , feed
+    , follow
+    , login
+    , profiles
+    , request
+    , tags
+    , user
+    , users
+    )
 
 import Article.Slug as Slug exposing (Slug)
 import CommentId exposing (CommentId)
@@ -37,7 +52,8 @@ request config =
 
 {-| Get a URL to the Conduit API.
 
-This is not publicly exposed, because we want to make sure the only way to get one of these URLs is from this module.
+This is not publicly exposed, because we want to make sure
+the only way to get one of these URLs is from this module.
 
 -}
 type Endpoint

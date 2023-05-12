@@ -1,15 +1,13 @@
 module Page.Register exposing (Model, Msg, init, subscriptions, toSession, update, view)
 
-import Api exposing (Cred)
-import Browser.Navigation as Nav
+import Api
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Json.Decode as Decode exposing (Decoder, decodeString, field, string)
-import Json.Decode.Pipeline exposing (optional)
+import Json.Decode exposing (field)
 import Json.Encode as Encode
-import Route exposing (Route)
+import Route
 import Session exposing (Session)
 import Viewer exposing (Viewer)
 
@@ -278,7 +276,10 @@ validateField (Trimmed form) field =
                     [ "password can't be blank." ]
 
                 else if String.length form.password < Viewer.minPasswordChars then
-                    [ "password must be at least " ++ String.fromInt Viewer.minPasswordChars ++ " characters long." ]
+                    [ "password must be at least "
+                        ++ String.fromInt Viewer.minPasswordChars
+                        ++ " characters long."
+                    ]
 
                 else
                     []

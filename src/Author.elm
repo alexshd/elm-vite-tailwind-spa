@@ -1,4 +1,19 @@
-module Author exposing (Author(..), FollowedAuthor, UnfollowedAuthor, decoder, fetch, follow, followButton, profile, requestFollow, requestUnfollow, unfollow, unfollowButton, username, view)
+module Author exposing
+    ( Author(..)
+    , FollowedAuthor
+    , UnfollowedAuthor
+    , decoder
+    , fetch
+    , follow
+    , followButton
+    , profile
+    , requestFollow
+    , requestUnfollow
+    , unfollow
+    , unfollowButton
+    , username
+    , view
+    )
 
 {-| The author of an Article. It includes a Profile.
 
@@ -34,16 +49,14 @@ There are still ways we could mess things up (e.g. make a button that calls Auth
 import Api exposing (Cred)
 import Api.Endpoint as Endpoint
 import Html exposing (Html, a, i, text)
-import Html.Attributes exposing (attribute, class, href, id, placeholder)
+import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (custom, optional, required)
-import Json.Encode as Encode exposing (Value)
 import Profile exposing (Profile)
-import Route exposing (Route)
+import Route
 import Username exposing (Username)
-import Viewer exposing (Viewer)
 
 
 {-| An author - either the current user, another user we're following, or
